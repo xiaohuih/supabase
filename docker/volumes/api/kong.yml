@@ -62,8 +62,6 @@ services:
           - /auth/v1/authorize
     plugins:
       - name: cors
-
-  ## Secure Auth routes
   - name: auth-v1
     _comment: 'GoTrue: /auth/v1/* -> http://auth:9999/*'
     url: http://auth:9999/
@@ -95,6 +93,16 @@ services:
           - /rest/v1/
     plugins:
       - name: cors
+  - name: rest-admin-v1
+    _comment: 'PostgREST: /rest-admin/v1/* -> http://rest:3001/*'
+    url: http://rest:3001/
+    routes:
+      - name: rest-admin-v1-all
+        strip_path: true
+        paths:
+          - /rest-admin/v1/
+    plugins:
+      - name: cors
       - name: key-auth
         config:
           hide_credentials: true
@@ -104,8 +112,6 @@ services:
           allow:
             - admin
             - anon
-
-  ## Secure GraphQL routes
   - name: graphql-v1
     _comment: 'PostgREST: /graphql/v1/* -> http://rest:3000/rpc/graphql'
     url: http://rest:3000/rpc/graphql
@@ -183,8 +189,19 @@ services:
           - /storage/v1/
     plugins:
       - name: cors
-
-  ## Edge Functions routes
+      - name: request-transformer
+        config:
+          add:
+            headers:
+              - 'Forwarded: host=127.0.0.1:54321;proto=http'
+  - name: pg_meta
+    _comment: 'pg-meta: /pg/* -> http://pg-meta:8080/*'
+    url: http://pg_meta:8080/
+    routes:
+      - name: pg_meta-all
+        strip_path: true
+        paths:
+          - /pg/
   - name: functions-v1
     _comment: 'Edge Functions: /functions/v1/* -> http://functions:9000/*'
     url: http://functions:9000/
@@ -195,10 +212,8 @@ services:
           - /functions/v1/
     plugins:
       - name: cors
-
-  ## Analytics routes
   - name: analytics-v1
-    _comment: 'Analytics: /analytics/v1/* -> http://logflare:4000/*'
+    _comment: 'Analytics: /analytics/v1/* -> http://analytics:4000/*'
     url: http://analytics:4000/
     routes:
       - name: analytics-v1-all
@@ -206,26 +221,6 @@ services:
         paths:
           - /analytics/v1/
 
-  ## Secure Database routes
-  - name: meta
-    _comment: 'pg-meta: /pg/* -> http://pg-meta:8080/*'
-    url: http://meta:8080/
-    routes:
-      - name: meta-all
-        strip_path: true
-        paths:
-          - /pg/
-    plugins:
-      - name: key-auth
-        config:
-          hide_credentials: false
-      - name: acl
-        config:
-          hide_groups_header: true
-          allow:
-            - admin
-
-  ## Protected Dashboard - catch all remaining routes
   - name: dashboard
     _comment: 'Studio: /* -> http://studio:3000/*'
     url: http://studio:3000/
