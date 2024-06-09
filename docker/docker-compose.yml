@@ -264,14 +264,14 @@ services:
       # Single tenant Mode
       DATABASE_URL: postgres://supabase_storage_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       # Storage
-      STORAGE_BACKEND: file
-      STORAGE_FILE_BACKEND_PATH: /var/lib/storage
-      STORAGE_S3_BUCKET: supa-storage-bucket  # name of s3 bucket where you want to store objects
-      STORAGE_S3_ENDPOINT: http://minio:9000
-      STORAGE_S3_FORCE_PATH_STYLE: "true"
-      STORAGE_S3_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: supa-storage
-      AWS_SECRET_ACCESS_KEY: secret1234
+      STORAGE_BACKEND: ${STORAGE_BACKEND}
+      STORAGE_FILE_BACKEND_PATH: ${STORAGE_FILE_BACKEND_PATH}
+      STORAGE_S3_BUCKET: ${STORAGE_S3_BUCKET}  # name of s3 bucket where you want to store objects
+      STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT}
+      STORAGE_S3_FORCE_PATH_STYLE: ${STORAGE_S3_FORCE_PATH_STYLE}
+      STORAGE_S3_REGION: ${STORAGE_S3_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       # Upload
       UPLOAD_FILE_SIZE_LIMIT: 524288000
       UPLOAD_FILE_SIZE_LIMIT_STANDARD: 52428800
