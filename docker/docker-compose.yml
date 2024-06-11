@@ -10,7 +10,7 @@ version: "3.8"
 services:
   studio:
     container_name: nextclip-studio
-    image: public.ecr.aws/supabase/studio:20240506-2976cd6
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/studio:20240506-2976cd6
     restart: unless-stopped
     healthcheck:
       test:
@@ -41,7 +41,7 @@ services:
 
   kong:
     container_name: nextclip-kong
-    image: public.ecr.aws/supabase/kong:2.8.1
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/kong:2.8.1
     restart: unless-stopped
     # https://unix.stackexchange.com/a/294837
     entrypoint: bash -c 'eval "echo \"$$(cat ~/temp.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
@@ -68,7 +68,7 @@ services:
 
   auth:
     container_name: nextclip-auth
-    image: nextclip/auth:v2.152.1-rc.3
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/auth:v2.152.1-rc.3
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -159,7 +159,7 @@ services:
 
   rest:
     container_name: next-rest
-    image: public.ecr.aws/supabase/postgrest:v12.0.1
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/postgrest:v12.0.1 
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -181,7 +181,7 @@ services:
   realtime:
     # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
     container_name: realtime-dev.nextclip-realtime
-    image: public.ecr.aws/supabase/realtime:v2.28.32
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/realtime:v2.28.32
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -228,7 +228,7 @@ services:
   # To use S3 backed storage: docker compose -f docker-compose.yml -f docker-compose.s3.yml up
   storage:
     container_name: nextclip-storage
-    image: public.ecr.aws/supabase/storage-api:v1.0.6
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/storage-api:v1.0.6
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -290,7 +290,7 @@ services:
 
   imgproxy:
     container_name: nextclip-imgproxy
-    image: public.ecr.aws/supabase/imgproxy:v3.8.0
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/imgproxy:v3.8.0
     healthcheck:
       test: [ "CMD", "imgproxy", "health" ]
       timeout: 5s
@@ -306,7 +306,7 @@ services:
 
   pg_meta:
     container_name: nextclip-pg_meta
-    image: public.ecr.aws/supabase/postgres-meta:v0.80.0
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/postgres-meta:v0.80.0
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -324,7 +324,7 @@ services:
 
   functions:
     container_name: nextclip-edge-runtime
-    image: public.ecr.aws/supabase/edge-runtime:v1.45.2
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/edge-runtime:v1.45.2
     restart: unless-stopped
     depends_on:
       analytics:
@@ -350,7 +350,7 @@ services:
 
   analytics:
     container_name: nextclip-analytics
-    image: public.ecr.aws/supabase/logflare:1.4.0
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/logflare:1.4.0
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:4000/health" ]
       timeout: 5s
@@ -393,7 +393,7 @@ services:
   # Comment out everything below this point if you are using an external Postgres database
   db:
     container_name: nextclip-db
-    image: public.ecr.aws/supabase/postgres:15.1.1.41
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/postgres:15.1.1.41
     healthcheck:
       test: pg_isready -U postgres -h localhost
       interval: 5s
