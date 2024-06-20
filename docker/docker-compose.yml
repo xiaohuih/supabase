@@ -228,7 +228,7 @@ services:
   # To use S3 backed storage: docker compose -f docker-compose.yml -f docker-compose.s3.yml up
   storage:
     container_name: nextclip-storage
-    image: registry.cn-shanghai.aliyuncs.com/nextclip/storage-api:v1.5.2
+    image: registry.cn-shanghai.aliyuncs.com/nextclip/storage-api:v1.5.3
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -266,6 +266,7 @@ services:
       # Storage
       STORAGE_BACKEND: ${STORAGE_BACKEND}
       STORAGE_FILE_BACKEND_PATH: ${STORAGE_FILE_BACKEND_PATH}
+      GLOBAL_S3_BUCKET: ${GLOBAL_S3_BUCKET}
       # STORAGE_S3_BUCKET: ${STORAGE_S3_BUCKET}  # name of s3 bucket where you want to store objects
       # STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT}
       # STORAGE_S3_FORCE_PATH_STYLE: ${STORAGE_S3_FORCE_PATH_STYLE}
